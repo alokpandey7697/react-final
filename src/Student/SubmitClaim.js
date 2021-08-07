@@ -2,6 +2,11 @@ import React from 'react';
 
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';  
 import fetch from 'cross-fetch';
+import { trackPromise } from 'react-promise-tracker';
+
+
+
+
 class SubmitClaim extends React.Component{  
 constructor(props){  
 super(props)  
@@ -10,80 +15,43 @@ MemberID:'',
 PolicyID:'',
 BenefitID:'',
 HospitalID:'',
-ClaimID:'',
+ClaimAmt:'',
 BenefitName:'',
-Status:''}  
+Status:'',
+FormFilled:false,
+IsLoading:false,
+}  
 }   
 
 SubmitClaim=()=>{  
-  alert("clicked");
   var url = new URL('https://localhost:44355/api/Members/submitClaim?')
 
   var params = {policyID:this.state.PolicyID,memberID:this.state.MemberID,benefitID:this.state.BenefitID,hospitalID:this.state.HospitalID,
-    claimAmt:this.state.ClaimID,benefit:this.state.BenefitName} // or:
+    claimAmt:this.state.ClaimAmt,benefit:this.state.BenefitName} // or:
   
   url.search = new URLSearchParams(params).toString();
      const requestOptions = {
       method: 'POST',
-  
   };
+trackPromise(
   fetch(url,requestOptions)
- 
   .then(res=>res.text())
        .then(data => {  
          this.setState({Status:data});
-      //   this.setState({ PremiumDue: response.premiumDue, PaymentDetails: response.paymentDetails, DueDate: response.dueDate, LastPremiumPaidDate: response.lastPremiumPaidDate,res:true });
-        console.log(data);
-       // console.log(response.data);
-    
-      });  
-     
-  // var url = new URL('')
-
-  //   var params = {} // or:
-
-  //   url.search = new URLSearchParams(params).toString();
-    
-
-  //   const requestOptions = {
-  //     method: 'POST',
+         this.setState({FormFilled:true});
+      })  
+ );
   
-  // };
-
-  //   // fetch(url,requestOptions)
-  //   // .then(res=>JSON.parse(JSON.stringify(res)))
-  //   // .then(data=>{
-  //   //     console.log(data);
-  //   //     alert(data);
-  //   //  });
-
-  //   // var url = new URL('https://localhost:44355/api/Members/viewBills?')
-
-  //    //var params = {policyID:this.state.PolicyID,memberID:this.state.MemberID} // or:
-     
-  //    url.search = new URLSearchParams(params).toString();
-     
-  //    fetch(url,requestOptions)
-    
-  //         .then(response => {  
-  //           this.setState({ business: response.data });
-  //          console.log(response);
-  //          alert(response.data);  
-  //          debugger;  
- 
-  //        })  
-           
-
 }  
 
 handleChange= (e)=> {  
 this.setState({[e.target.name]:e.target.value});  
 }  
 render() {  
-  if(this.state.Status == ''){
+  if(!this.state.FormFilled){
 return (  
    <Container className="App">  
-    <h4 className="PageHeading">Enter Student Informations</h4>  
+    <h4 className="PageHeading">Enter Claim Informations</h4>  
     <Form className="form">  
       <Col>  
         <FormGroup row>  
@@ -111,9 +79,9 @@ return (
           </Col>  
         </FormGroup> 
         <FormGroup row>  
-          <Label for="ClaimID" sm={2}>ClaimID</Label>  
+          <Label for="ClaimAmt" sm={2}>ClaimAmt</Label>  
           <Col sm={10}>  
-            <Input type="text" name="ClaimID" onChange={this.handleChange} value={this.state.ClaimID} placeholder="Enter ClaimID" />  
+            <Input type="text" name="ClaimAmt" onChange={this.handleChange} value={this.state.ClaimAmt} placeholder="Enter ClaimAmt" />  
           </Col>  
         </FormGroup> 
         <FormGroup row>  
@@ -128,7 +96,7 @@ return (
           <Col sm={5}>  
           </Col>  
           <Col sm={1}>  
-          <button type="button" onClick={this.SubmitClaim} className="btn btn-success">SubmitClaim</button>  
+          <button type="button" onClick={this.SubmitClaim} className="btn btn-success">Submit</button>  
           </Col>  
           <Col sm={1}>  
             <Button color="danger">Cancel</Button>{' '}  
@@ -141,11 +109,10 @@ return (
   </Container>  
 );  
   }
-  else{
+  else {
 return (<div><h1>Your current status {this.state.Status}</h1></div>);
 }
 }  
-
 }  
 
 export default SubmitClaim;  

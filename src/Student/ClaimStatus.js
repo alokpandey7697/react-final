@@ -1,13 +1,15 @@
 import React from 'react';  
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';  
 import fetch from 'cross-fetch';
+import { trackPromise } from 'react-promise-tracker';
 class ClaimStatus extends React.Component{  
 constructor(props){  
 super(props)  
 this.state = {  
     ClaimID:'',  
     PolicyID:'',
-    Status:''
+    Status:'',
+    res:0
 }  
 }   
 Submit=()=>{  
@@ -17,30 +19,22 @@ Submit=()=>{
     
     url.search = new URLSearchParams(params).toString();
     
-  
-    fetch(url)
-   
-  .then(res=>res.text())
+  trackPromise( fetch(url)
+  .then(response=>{
+    if(response.ok){
+      this.setState({res:1});
+      return response.text();
+    }
+    else{
+      this.setState({res:2});
+    }
+   })
   .then(data => {  
     this.setState({Status:data});
- //   this.setState({ PremiumDue: response.premiumDue, PaymentDetails: response.paymentDetails, DueDate: response.dueDate, LastPremiumPaidDate: response.lastPremiumPaidDate,res:true });
-   console.log(data);
-  // console.log(response.data);
 
- }); 
-//   axios.post('https://localhost:44355/api/Members/getClaimStatus?',null,{params:{}})  
-// .then(json => {  
-// if(json.data.Status==='Sucess'){  
-//   console.log(json.data.Status);  
-//   alert("Data Save Successfully");  
-// this.props.history.push('/Studentlist')  
-// }  
-// else{  
-// alert('Data not Saved');  
-// debugger;  
-// this.props.history.push('/Studentlist')  
-// }  
-//})  
+ }));
+   
+
 }  
 
 handleChange= (e)=> {  
@@ -49,9 +43,9 @@ this.setState({[e.target.name]:e.target.value});
 
 render() {  
 
-  if(this.state.Status === ''){
+  if(this.state.res == 0){
     return (<Container className="App">  
-    <h4 className="PageHeading">Enter Student Informations</h4>  
+    <h4 className="PageHeading">Enter ClaimID & PolicyID </h4>  
     <Form className="form">  
       <Col>  
         <FormGroup row>  
@@ -85,8 +79,11 @@ render() {
   </Container>);
 
   }
-  else {
+  else if(this.state.res == 1) {
     return <div><h1>Your current status {this.state.Status}</h1></div>;
+  }
+  else {
+    return <div><h1>Invalid Claim details!</h1></div>
   }
 
 }  
