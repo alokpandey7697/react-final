@@ -107,6 +107,7 @@ render(){
         </FormGroup>  
       </Col>  
     </Form>  
+    <LoadingIndicator/>
   </Container> );
   }
   else {
@@ -143,6 +144,7 @@ render(){
           <Route path='/ClaimStatus' component={ClaimStatus} />
           <Route path='/ViewBill' component={ViewBill} />
         </Switch>  
+
       </div>  
      
 
