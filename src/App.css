@@ -39,3 +39,6 @@
 .App {    
   text-align: center;    
 }    
+.navbar {
+  padding-right: 10px;
+}
