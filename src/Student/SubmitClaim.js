@@ -19,10 +19,20 @@ ClaimAmt:'',
 BenefitName:'',
 Status:'',
 FormFilled:false,
-IsLoading:false,
+IsLoading:false
 }  
 }   
-
+clearState=()=> {
+  this.setState({MemberID:'',  
+  PolicyID:'',
+  BenefitID:'',
+  HospitalID:'',
+  ClaimAmt:'',
+  BenefitName:'',
+  Status:'',
+  FormFilled:false,
+  IsLoading:false});
+}
 SubmitClaim=()=>{  
   var url = new URL('https://localhost:44355/api/Members/submitClaim?')
 
@@ -59,47 +69,54 @@ return (
           <Col sm={10}>  
             <Input type="text" name="MemberID" onChange={this.handleChange} value={this.state.MemberID} placeholder="Enter MemberID" />  
           </Col>  
-        </FormGroup>  
-        <FormGroup row>  
+        </FormGroup>   <br></br> 
+        <FormGroup row>
+        
           <Label for="PolicyID" sm={2}>PolicyID</Label>  
           <Col sm={10}>  
             <Input type="text" name="PolicyID" onChange={this.handleChange} value={this.state.PolicyID} placeholder="Enter PolicyID" />  
           </Col>  
-        </FormGroup> 
+        </FormGroup>  <br></br>
         <FormGroup row>  
+       
           <Label for="BenefitID" sm={2}>BenefitID</Label>  
           <Col sm={10}>  
             <Input type="text" name="BenefitID" onChange={this.handleChange} value={this.state.BenefitID} placeholder="Enter BenefitID" />  
           </Col>  
-        </FormGroup> 
+        </FormGroup> <br></br>
         <FormGroup row>  
+        
           <Label for="HospitalID" sm={2}>HospitalID</Label>  
           <Col sm={10}>  
             <Input type="text" name="HospitalID" onChange={this.handleChange} value={this.state.HospitalID} placeholder="Enter HospitalID" />  
           </Col>  
-        </FormGroup> 
+        </FormGroup> <br></br>
         <FormGroup row>  
+        
           <Label for="ClaimAmt" sm={2}>ClaimAmt</Label>  
           <Col sm={10}>  
             <Input type="text" name="ClaimAmt" onChange={this.handleChange} value={this.state.ClaimAmt} placeholder="Enter ClaimAmt" />  
           </Col>  
-        </FormGroup> 
+        </FormGroup>   <br></br>
         <FormGroup row>  
+      
           <Label for="BenefitName" sm={2}>BenefitName</Label>  
           <Col sm={10}>  
             <Input type="text" name="BenefitName" onChange={this.handleChange} value={this.state.BenefitName} placeholder="Enter BenefitName" />  
           </Col>  
         </FormGroup>  
       </Col>  
+      <br></br>
       <Col>  
         <FormGroup row>  
+       
           <Col sm={5}>  
           </Col>  
           <Col sm={1}>  
           <button type="button" onClick={this.SubmitClaim} className="btn btn-success">Submit</button>  
           </Col>  
           <Col sm={1}>  
-            <Button color="danger">Cancel</Button>{' '}  
+            <Button color="danger" onClick={this.clearState}>Cancel</Button>
           </Col>  
           <Col sm={5}>  
           </Col>  

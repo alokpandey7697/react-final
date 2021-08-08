@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';  
 import fetch from 'cross-fetch';
 import SubmitClaim from './Student/SubmitClaim';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';  
+import { BrowserRouter as Router, Switch, Route, Link ,Redirect} from 'react-router-dom';  
 import './App.css';  
 import ClaimStatus from './Student/ClaimStatus';
 import ViewBill from './Student/ViewBill';
@@ -32,7 +32,7 @@ class App extends React.Component {
  
   // Handle the actual deletion of the item
    submitLogout = () => {
-     this.setState({Username:'',Password:'',IsloggedIn:false,displayConfirmationModal:false,deleteMessage:''})
+     this.setState({Username:'',Password:'',IsloggedIn:false,displayConfirmationModal:false,deleteMessage:'',PropsUsername:''})
     
   };
  
@@ -55,7 +55,7 @@ fetch('https://localhost:44392/api/Authorization/Login', requestOptions)
 .then(json => {  
 if(json.ok){  
   //userHasAuthenticated(true);
-
+this.setState({PropsUsername:this.state.Username});
 this.setState({Username:'',Password:'',IsloggedIn:true});
 }  
 
@@ -84,6 +84,7 @@ render(){
             <Input type="text" name="Username" onChange={this.handleChange} value={this.state.Username} placeholder="Enter Username" />  
           </Col>  
         </FormGroup>  
+        <br></br>
         <FormGroup row>  
           <Label for="Password" sm={2}>Password</Label>  
           <Col sm={10}>  
@@ -91,6 +92,8 @@ render(){
           </Col>  
         </FormGroup>  
       </Col>  
+      <br></br>
+
       <Col>  
         <FormGroup row>  
           <Col sm={5}>  
@@ -138,20 +141,22 @@ render(){
           </div>  
         </nav> <br />  
         <Switch>  
-          <Route path='/Welcome' component={Welcome}/>
+          <Route path='/Welcome'  render={(props) => (
+    <Welcome {...props} Username={this.state.PropsUsername} />
+  )}/>
           <Route path='/SubmitClaim' component={SubmitClaim} />
           <Route path='/ClaimStatus' component={ClaimStatus} />
           <Route path='/ViewBill' component={ViewBill} />
         </Switch>  
       </div>  
-     
-
+      <Redirect to="/Welcome" />        
     </Router>
      <div>
       <LogoutConfirmation showModal={this.state.displayConfirmationModal} confirmModal={this.submitLogout} hideModal={this.hideConfirmationModal}  message={this.state.deleteMessage}  />
       <LoadingIndicator/>
       </div>
-
+     
+      
       </div> );
   }
    

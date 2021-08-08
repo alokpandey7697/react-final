@@ -10,6 +10,9 @@ export default class ViewBill extends Component {
       this.state = {PolicyID:'',MemberID:'',PaymentDetails:'',DueDate:'',LastPremiumPaidDate:'',data:[],res:0};  
     }  
 
+    clearState=()=>{
+      this.setState({PolicyID:'',MemberID:'',PaymentDetails:'',DueDate:'',LastPremiumPaidDate:'',data:[],res:0});
+    }
     handleChange= (e)=> {  
       this.setState({[e.target.name]:e.target.value});  
       }  
@@ -50,6 +53,8 @@ export default class ViewBill extends Component {
                     <Input type="text" name="MemberID" onChange={this.handleChange} value={this.state.MemberID} placeholder="Enter MemberID" />  
                   </Col>  
                 </FormGroup>  
+                <br></br>
+
                 <FormGroup row>  
                   <Label for="PolicyID" sm={2}>PolicyID</Label>  
                   <Col sm={10}>  
@@ -58,14 +63,16 @@ export default class ViewBill extends Component {
                 </FormGroup>  
               </Col>  
               <Col>  
+              <br></br>
+
                 <FormGroup row>  
                   <Col sm={5}>  
                   </Col>  
-                  <Col sm={1}>  
+                  <Col sm={1} >  
                   <button type="button" onClick={this.handleSubmit} className="btn btn-success">Submit</button>  
                   </Col>  
-                  <Col sm={1}>  
-                    <Button color="danger">Cancel</Button>{' '}  
+                  <Col sm={1} >  
+                    <Button color="danger " onClick={this.clearState}>Cancel</Button>
                   </Col>  
                   <Col sm={5}>  
                   </Col>  
@@ -108,6 +115,7 @@ export default class ViewBill extends Component {
         </div>);
         }
         else{
+          
           return (<div>
 <h1>No Policy has been subscribed.</h1></div>
        );

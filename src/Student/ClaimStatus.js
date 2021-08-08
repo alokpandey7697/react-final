@@ -12,6 +12,12 @@ this.state = {
     res:0
 }  
 }   
+clearState=()=>{
+  this.setState({ ClaimID:'',  
+  PolicyID:'',
+  Status:'',
+  res:0})
+}
 Submit=()=>{  
     var url = new URL('https://localhost:44355/api/Members/getClaimStatus?')
 
@@ -54,6 +60,7 @@ render() {
             <Input type="text" name="ClaimID" onChange={this.handleChange} value={this.state.ClaimID} placeholder="Enter ClaimID" />  
           </Col>  
         </FormGroup>  
+        <br></br>
         <FormGroup row>  
           <Label for="PolicyID" sm={2}>PolicyID</Label>  
           <Col sm={10}>  
@@ -61,6 +68,7 @@ render() {
           </Col>  
         </FormGroup>  
       </Col>  
+      <br></br>
       <Col>  
         <FormGroup row>  
           <Col sm={5}>  
@@ -69,7 +77,7 @@ render() {
           <button type="button" onClick={this.Submit} className="btn btn-success">Submit</button>  
           </Col>  
           <Col sm={1}>  
-            <Button color="danger">Cancel</Button>{' '}  
+            <Button color="danger" onClick={this.clearState}>Cancel</Button> 
           </Col>  
           <Col sm={5}>  
           </Col>  
