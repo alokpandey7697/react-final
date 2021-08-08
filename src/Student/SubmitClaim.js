@@ -27,12 +27,12 @@ SubmitClaim=()=>{
   var url = new URL('https://localhost:44355/api/Members/submitClaim?')
 
   var params = {policyID:this.state.PolicyID,memberID:this.state.MemberID,benefitID:this.state.BenefitID,hospitalID:this.state.HospitalID,
-    claimAmt:this.state.ClaimAmt,benefit:this.state.BenefitName} // or:
+    claimAmt:this.state.ClaimAmt,benefit:"\"" + this.state.BenefitName+ "\""} // or:
   
   url.search = new URLSearchParams(params).toString();
      const requestOptions = {
       method: 'POST',
-  };
+  }; 
 trackPromise(
   fetch(url,requestOptions)
   .then(res=>res.text())

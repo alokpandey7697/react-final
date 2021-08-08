@@ -32,9 +32,8 @@ class App extends React.Component {
  
   // Handle the actual deletion of the item
    submitLogout = () => {
-     
-    this.setState({IsloggedIn:false});
-    this.setState({displayConfirmationModal:false});
+     this.setState({Username:'',Password:'',IsloggedIn:false,displayConfirmationModal:false,deleteMessage:''})
+    
   };
  
 handleChange= (e)=> {  
@@ -115,7 +114,7 @@ render(){
       <div>
     <Router>  
       <div className="container">  
-        <nav className="navbar navbar-expand-lg navheader">  
+        <nav className="navbar navbar-expand-lg  navheader">  
           <div className="collapse navbar-collapse" >  
             <ul className="navbar-nav mr-auto">  
             <li className="nav-item">  
@@ -134,7 +133,7 @@ render(){
 
             </ul>  
             <ul className="navbar-nav ms-auto">
-            <button class="btn btn-outline-success" onClick={this.showLogoutModal}>Logout</button>
+            <button class="btn btn-outline-danger " onClick={this.showLogoutModal}>Logout</button>
             </ul>
           </div>  
         </nav> <br />  
@@ -144,7 +143,6 @@ render(){
           <Route path='/ClaimStatus' component={ClaimStatus} />
           <Route path='/ViewBill' component={ViewBill} />
         </Switch>  
-
       </div>  
      
 
@@ -152,8 +150,7 @@ render(){
      <div>
       <LogoutConfirmation showModal={this.state.displayConfirmationModal} confirmModal={this.submitLogout} hideModal={this.hideConfirmationModal}  message={this.state.deleteMessage}  />
       <LoadingIndicator/>
-      </div> 
-    
+      </div>
 
       </div> );
   }
