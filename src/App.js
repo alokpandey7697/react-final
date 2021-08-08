@@ -114,7 +114,7 @@ render(){
       <div>
     <Router>  
       <div className="container">  
-        <nav className="navbar navbar-expand-lg  navheader">  
+        <nav className="navbar navbar-expand-sm navbar-dark bg-dark">  
           <div className="collapse navbar-collapse" >  
             <ul className="navbar-nav mr-auto">  
             <li className="nav-item">  
@@ -133,7 +133,7 @@ render(){
 
             </ul>  
             <ul className="navbar-nav ms-auto">
-            <button class="btn btn-outline-danger " onClick={this.showLogoutModal}>Logout</button>
+            <button class="btn btn-danger " onClick={this.showLogoutModal}>Logout</button>
             </ul>
           </div>  
         </nav> <br />  
