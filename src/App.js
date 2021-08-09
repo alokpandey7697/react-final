@@ -115,7 +115,7 @@ class App extends React.Component {
       return (
         <div>
           <Router>
-            <div className="container">
+            <div className="container-fluid">
               <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div className="collapse navbar-collapse" >
                   <ul className="navbar-nav mr-auto">
