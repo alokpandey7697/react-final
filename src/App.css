@@ -32,13 +32,16 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
-.App {    
-  text-align: center;    
-}    
+
+.App {
+  text-align: center;
+}
+
 .navbar {
   padding-right: 10px;
 }
