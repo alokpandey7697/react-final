@@ -139,7 +139,7 @@ class App extends React.Component {
         <div>
           <Router>
 
-            <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+            <nav className="navbar navbar-expand navbar-dark bg-dark">
               <div className="collapse navbar-collapse" >
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
