@@ -105,7 +105,7 @@ class App extends React.Component {
                   <FormGroup row>
                     <Label for="Password" sm={4}>Password</Label>
                     <Col sm={8}>
-                      <Input type="text" name="Password" onChange={this.handleChange} value={this.state.Password} placeholder="Enter Password" />
+                      <Input type="password" name="Password" onChange={this.handleChange} value={this.state.Password} placeholder="Enter Password" />
                       <span style={{ color: "red" }}>{this.state.PasswordInvalid}</span>
                     </Col>
                   </FormGroup>
