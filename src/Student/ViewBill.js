@@ -7,16 +7,29 @@ export default class ViewBill extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { premiumDue: '', policyID: '', memberID: '', paymentDetails: '', dueDate: '', lastPremiumPaidDate: '', data: [], res: 0 };
+    this.state = { premiumDue: '', policyID: '', memberID: '', paymentDetails: '', dueDate: '', lastPremiumPaidDate: '', memberIDInvalid: '', policyIDInvalid: '', res: 0 };
   }
 
   clearState = () => {
-    this.setState({ premiumDue: '', policyID: '', memberID: '', paymentDetails: '', dueDate: '', lastPremiumPaidDate: '', data: [], res: 0 });
+    this.setState({ premiumDue: '', policyID: '', memberID: '', paymentDetails: '', dueDate: '', lastPremiumPaidDate: '', memberIDInvalid: '', policyIDInvalid: '', res: 0 });
   }
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name + "Invalid"]: '' });
   }
   handleSubmit = () => {
+
+    if (this.state.memberID == "") {
+      this.setState({ memberIDInvalid: "Please enter MemberID." });
+      return;
+    }
+
+    else if (this.state.policyID == "") {
+      this.setState({ policyIDInvalid: "Please enter PolicyID." });
+      return;
+    }
+
+
     var url = new URL('https://localhost:44355/api/Members/viewBills?')
 
     var params = { policyID: this.state.policyID, memberID: this.state.memberID } // or:
@@ -39,51 +52,65 @@ export default class ViewBill extends Component {
           this.setState({ premiumDue: response.premiumDue, paymentDetails: response.paymentDetails, dueDate: response.dueDate.toString().substring(0, 10), lastPremiumPaidDate: response.lastPremiumPaidDate.toString().substring(0, 10), res: true });
 
 
-        }));
+        })
+        .catch((error) => {
+        }))
   }
   render() {
     if (this.state.res == 0) {
       return (
-        <Container className="App">
-          <Form className="form">
-            <Col>
-              <FormGroup row>
-                <Label for="memberID" sm={2}>MemberID</Label>
-                <Col sm={10}>
-                  <Input type="text" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
+        <div class="d-flex justify-content-center mt-5 ">
+          <div class="card w-50">
+            <div class="card-header bg-primary text-white text-center">
+              <h3  >Enter MemberID & PolicyID</h3>
+            </div>
+            <div class="card-body">
+              <Form className="form">
+                <Col>
+                  <FormGroup row>
+                    <Label for="memberID" sm={4}>MemberID</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
+                      <span style={{ color: "red" }}>{this.state.memberIDInvalid}</span>
+
+                    </Col>
+                  </FormGroup>
+                  <br></br>
+                  <FormGroup row>
+                    <Label for="policyID" sm={4}>PolicyID</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
+                      <span style={{ color: "red" }}>{this.state.policyIDInvalid}</span>
+
+                    </Col>
+                  </FormGroup>
                 </Col>
-              </FormGroup>
-              <br></br>
-              <FormGroup row>
-                <Label for="policyID" sm={2}>PolicyID</Label>
-                <Col sm={10}>
-                  <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
+                <Col>
+                  <br></br>
+                  <FormGroup row>
+                    <Col sm={3}>
+                    </Col>
+                    <Col sm={3} >
+                      <button type="button" onClick={this.handleSubmit} className="btn btn-success">Submit</button>
+                    </Col>
+                    <Col sm={3} >
+                      <Button color="danger " onClick={this.clearState}>Cancel</Button>
+                    </Col>
+                    <Col sm={3}>
+                    </Col>
+                  </FormGroup>
                 </Col>
-              </FormGroup>
-            </Col>
-            <Col>
-              <br></br>
-              <FormGroup row>
-                <Col sm={5}>
-                </Col>
-                <Col sm={1} >
-                  <button type="button" onClick={this.handleSubmit} className="btn btn-success">Submit</button>
-                </Col>
-                <Col sm={1} >
-                  <Button color="danger " onClick={this.clearState}>Cancel</Button>
-                </Col>
-                <Col sm={5}>
-                </Col>
-              </FormGroup>
-            </Col>
-          </Form>
-        </Container>
+              </Form>
+            </div>
+          </div>
+        </div >
+
       );
     }
     else if (this.state.res == 1) {
       return (
-        <div>
-          <table className="table table-striped" style={{ marginTop: 10 }}>
+        <div class="d-flex justify-content-center  m-5 p-5">
+          <table className="table table-striped  " style={{ marginTop: 10 }}>
             <thead>
               <tr>
                 <th>MemberID</th>
@@ -109,8 +136,8 @@ export default class ViewBill extends Component {
     }
     else {
 
-      return (<div>
-        <h1>No Policy has been subscribed.</h1></div>
+      return (<div class="d-flex justify-content-center  m-5 p-5">
+        <h1 >No Policy has been subscribed.</h1></div>
       );
     }
   }

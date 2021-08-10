@@ -9,7 +9,9 @@ class ClaimStatus extends React.Component {
       claimID: '',
       policyID: '',
       status: '',
-      res: 0
+      res: 0,
+      claimIDInvalid: '',
+      policyIDInvalid: ''
     }
   }
   clearState = () => {
@@ -17,10 +19,21 @@ class ClaimStatus extends React.Component {
       claimID: '',
       policyID: '',
       status: '',
-      res: 0
+      res: 0,
+      claimIDInvalid: '',
+      policyIDInvalid: ''
     })
   }
   Submit = () => {
+    if (this.state.claimID == "") {
+      this.setState({ claimIDInvalid: "Please enter ClaimID." });
+      return;
+    }
+    else if (this.state.policyID == "") {
+      this.setState({ policyIDInvalid: "Please enter PolicyID." })
+      return;
+    }
+
     var url = new URL('https://localhost:44355/api/Members/getClaimStatus?')
 
     var params = { claimID: this.state.claimID, policyID: this.state.policyID } // or:
@@ -39,63 +52,77 @@ class ClaimStatus extends React.Component {
       })
       .then(data => {
         this.setState({ status: data });
-
+      })
+      .catch((error) => {
       }));
-
-
   }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name + "Invalid"]: '' });
+
   }
 
   render() {
 
     if (this.state.res == 0) {
-      return (<Container className="App">
-        <h4 className="PageHeading">Enter ClaimID & PolicyID </h4>
-        <Form className="form">
-          <Col>
-            <FormGroup row>
-              <Label for="claimID" sm={2}>ClaimID</Label>
-              <Col sm={10}>
-                <Input type="text" name="claimID" onChange={this.handleChange} value={this.state.claimID} placeholder="Enter ClaimID" />
-              </Col>
-            </FormGroup>
-            <br></br>
-            <FormGroup row>
-              <Label for="policyID" sm={2}>PolicyID</Label>
-              <Col sm={10}>
-                <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
-              </Col>
-            </FormGroup>
-          </Col>
-          <br></br>
-          <Col>
-            <FormGroup row>
-              <Col sm={5}>
-              </Col>
-              <Col sm={1}>
-                <button type="button" onClick={this.Submit} className="btn btn-success">Submit</button>
-              </Col>
-              <Col sm={1}>
-                <Button color="danger" onClick={this.clearState}>Cancel</Button>
-              </Col>
-              <Col sm={5}>
-              </Col>
-            </FormGroup>
-          </Col>
-        </Form>
-      </Container>);
+      return (
+        <div class="d-flex justify-content-center mt-5 ">
+          <div class="card w-50">
+            <div class="card-header bg-primary text-white text-center">
+              <h3  >Enter ClaimID & PolicyID</h3>
+            </div>
+            <div class="card-body">
+              <Container className="App">
 
+                <Form className="form">
+                  <Col>
+                    <FormGroup row>
+                      <Label for="claimID" sm={4}>ClaimID</Label>
+                      <Col sm={8}>
+                        <Input type="text" name="claimID" onChange={this.handleChange} value={this.state.claimID} placeholder="Enter ClaimID" />
+                        <span style={{ color: "red" }}>{this.state.claimIDInvalid}</span>
+                      </Col>
+                    </FormGroup>
+                    <br></br>
+                    <FormGroup row>
+                      <Label for="policyID" sm={4}>PolicyID</Label>
+                      <Col sm={8}>
+                        <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
+                        <span style={{ color: "red" }}>{this.state.policyIDInvalid}</span>
+                      </Col>
+                    </FormGroup>
+                  </Col>
+                  <br></br>
+                  <Col>
+                    <FormGroup row>
+                      <Col sm={3}>
+                      </Col>
+                      <Col sm={3}>
+                        <button type="button" onClick={this.Submit} className="btn btn-success">Submit</button>
+                      </Col>
+                      <Col sm={3}>
+                        <Button color="danger" onClick={this.clearState}>Cancel</Button>
+                      </Col>
+                      <Col sm={3}>
+                      </Col>
+                    </FormGroup>
+                  </Col>
+                </Form>
+              </Container>
+            </div>
+          </div>
+        </div >
+      );
     }
+
     else if (this.state.res == 1) {
-      return <div><h1>Your current status {this.state.status}</h1></div>;
-    }
-    else {
-      return <div><h1>Invalid Claim details!</h1></div>
+      return <div class="d-flex justify-content-center  m-5 p-5"><h1>Your current status {this.state.status}</h1></div>;
     }
 
+    else {
+      return <div class="d-flex justify-content-center  m-5 p-5"><h1>Invalid Claim details!</h1></div>
+    }
   }
 
 }

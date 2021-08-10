@@ -18,7 +18,14 @@ class SubmitClaim extends React.Component {
       benefitName: '',
       status: '',
       formFilled: false,
-      isLoading: false
+      isLoading: false,
+      res: false,
+      memberIDInvalid: '',
+      policyIDInvalid: '',
+      benefitIDInvalid: '',
+      hospitalIDInvalid: '',
+      claimAmtInvalid: '',
+      benefitNameInvalid: ''
     }
   }
 
@@ -32,11 +39,46 @@ class SubmitClaim extends React.Component {
       benefitName: '',
       status: '',
       formFilled: false,
-      isLoading: false
+      isLoading: false,
+      res: false,
+      memberIDInvalid: '',
+      policyIDInvalid: '',
+      benefitIDInvalid: '',
+      hospitalIDInvalid: '',
+      claimAmtInvalid: '',
+      benefitNameInvalid: ''
     });
   }
 
   SubmitClaim = () => {
+
+    if (this.state.memberID == "") {
+      this.setState({ memberIDInvalid: "Please enter MemberID." });
+      return;
+    }
+    else if (this.state.policyID == "") {
+      this.setState({ policyIDInvalid: "Please enter PolicyID." });
+      return;
+    }
+    else if (this.state.benefitID == "") {
+      this.setState({ benefitIDInvalid: "Please enter BenefitID." });
+      return;
+    }
+    else if (this.state.hospitalID == "") {
+      this.setState({ hospitalIDInvalid: "Please enter HospitalID." });
+      return;
+    }
+    else if (this.state.claimAmt == "") {
+      this.setState({ claimAmtInvalid: "Please enter ClaimAmt." });
+      return;
+    }
+    else if (this.state.benefitName == "") {
+      this.setState({ benefitNameInvalid: "Please enter BenefitName." });
+      return;
+    }
+
+
+
     var url = new URL('https://localhost:44355/api/Members/submitClaim?')
 
     var params = {
@@ -51,89 +93,118 @@ class SubmitClaim extends React.Component {
 
     trackPromise(
       fetch(url, requestOptions)
-        .then(res => res.text())
+        .then(res => {
+          if (res.ok) {
+            this.setState({ res: true });
+            return res.text();
+          }
+          else {
+            alert("Invalid claim details provided!")
+          }
+        })
         .then(data => {
           this.setState({ status: data });
           this.setState({ formFilled: true });
+        })
+        .catch((error) => {
         })
     );
   }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name + "Invalid"]: '' });
+
   }
 
   render() {
-    if (!this.state.formFilled) {
+    if (!this.state.formFilled || !this.state.res) {
       return (
-        <Container className="App">
-          <h4 className="PageHeading">Enter Claim Informations</h4>
-          <Form className="form">
-            <Col>
-              <FormGroup row>
-                <Label for="memberID" sm={2}>MemberID</Label>
-                <Col sm={10}>
-                  <Input type="text" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
-                </Col>
-              </FormGroup>   <br></br>
-              <FormGroup row>
+        <div class="d-flex justify-content-center mt-2 ">
+          <div class="card w-50">
+            <div class="card-header bg-primary text-white text-center">
+              <h3  >Enter Claim Information</h3>
+            </div>
+            <div class="card-body">
 
-                <Label for="policyID" sm={2}>PolicyID</Label>
-                <Col sm={10}>
-                  <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
-                </Col>
-              </FormGroup>  <br></br>
-              <FormGroup row>
 
-                <Label for="benefitID" sm={2}>BenefitID</Label>
-                <Col sm={10}>
-                  <Input type="text" name="benefitID" onChange={this.handleChange} value={this.state.benefitID} placeholder="Enter BenefitID" />
-                </Col>
-              </FormGroup> <br></br>
-              <FormGroup row>
+              <Form className="form">
+                <Col>
+                  <FormGroup row>
+                    <Label for="memberID" sm={3}>MemberID</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
+                      <span style={{ color: "red" }}>{this.state.memberIDInvalid}</span>
+                    </Col>
+                  </FormGroup>   <br></br>
+                  <FormGroup row>
 
-                <Label for="hospitalID" sm={2}>HospitalID</Label>
-                <Col sm={10}>
-                  <Input type="text" name="hospitalID" onChange={this.handleChange} value={this.state.hospitalID} placeholder="Enter HospitalID" />
-                </Col>
-              </FormGroup> <br></br>
-              <FormGroup row>
+                    <Label for="policyID" sm={3}>PolicyID</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
+                      <span style={{ color: "red" }}>{this.state.policyIDInvalid}</span>
+                    </Col>
+                  </FormGroup>  <br></br>
+                  <FormGroup row>
 
-                <Label for="claimAmt" sm={2}>ClaimAmt</Label>
-                <Col sm={10}>
-                  <Input type="text" name="claimAmt" onChange={this.handleChange} value={this.state.claimAmt} placeholder="Enter ClaimAmt" />
-                </Col>
-              </FormGroup>   <br></br>
-              <FormGroup row>
+                    <Label for="benefitID" sm={3}>BenefitID</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="benefitID" onChange={this.handleChange} value={this.state.benefitID} placeholder="Enter BenefitID" />
+                      <span style={{ color: "red" }}>{this.state.benefitIDInvalid}</span>
+                    </Col>
+                  </FormGroup> <br></br>
+                  <FormGroup row>
 
-                <Label for="benefitName" sm={2}>BenefitName</Label>
-                <Col sm={10}>
-                  <Input type="text" name="benefitName" onChange={this.handleChange} value={this.state.benefitName} placeholder="Enter BenefitName" />
-                </Col>
-              </FormGroup>
-            </Col>
-            <br></br>
-            <Col>
-              <FormGroup row>
+                    <Label for="hospitalID" sm={3}>HospitalID</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="hospitalID" onChange={this.handleChange} value={this.state.hospitalID} placeholder="Enter HospitalID" />
+                      <span style={{ color: "red" }}>{this.state.hospitalIDInvalid}</span>
+                    </Col>
+                  </FormGroup> <br></br>
+                  <FormGroup row>
 
-                <Col sm={5}>
+                    <Label for="claimAmt" sm={3}>ClaimAmt</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="claimAmt" onChange={this.handleChange} value={this.state.claimAmt} placeholder="Enter ClaimAmt" />
+                      <span style={{ color: "red" }}>{this.state.claimAmtInvalid}</span>
+                    </Col>
+                  </FormGroup>   <br></br>
+                  <FormGroup row>
+
+
+                    <Label for="benefitName" sm={3}>BenefitName</Label>
+                    <Col sm={8}>
+                      <Input type="text" name="benefitName" onChange={this.handleChange} value={this.state.benefitName} placeholder="Enter BenefitName" />
+                      <span style={{ color: "red" }}>{this.state.benefitNameInvalid}</span>
+                    </Col>
+                  </FormGroup>
                 </Col>
-                <Col sm={1}>
-                  <button type="button" onClick={this.SubmitClaim} className="btn btn-success">Submit</button>
+                <br></br>
+                <Col>
+                  <FormGroup row>
+
+                    <Col sm={3}>
+                    </Col>
+                    <Col sm={3}>
+                      <button type="button" onClick={this.SubmitClaim} className="btn btn-success">Submit</button>
+                    </Col>
+                    <Col sm={3}>
+                      <Button color="danger" onClick={this.clearState}>Cancel</Button>
+                    </Col>
+                    <Col sm={3}>
+                    </Col>
+                  </FormGroup>
                 </Col>
-                <Col sm={1}>
-                  <Button color="danger" onClick={this.clearState}>Cancel</Button>
-                </Col>
-                <Col sm={5}>
-                </Col>
-              </FormGroup>
-            </Col>
-          </Form>
-        </Container>
+              </Form>
+
+            </div>
+          </div>
+        </div >
+
       );
     }
     else {
-      return (<div><h1>Your current status {this.state.status}</h1></div>);
+      return (<div class="d-flex justify-content-center  m-5 p-5" ><h1>Your current status {this.state.status}</h1></div>);
     }
   }
 }

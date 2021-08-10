@@ -45,3 +45,8 @@
 .navbar {
   padding-right: 10px;
 }
+
+.form .required .control-label:after {
+  content: "*";
+  color: red;
+}
