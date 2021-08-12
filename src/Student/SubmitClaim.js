@@ -79,7 +79,7 @@ class SubmitClaim extends React.Component {
 
 
 
-    var url = new URL('https://localhost:44355/api/Members/submitClaim?')
+    var url = new URL('https://membermicroservice.azurewebsites.net/api/Members/submitClaim?')
 
     var params = {
       policyID: this.state.policyID, memberID: this.state.memberID, benefitID: this.state.benefitID, hospitalID: this.state.hospitalID,
@@ -133,7 +133,7 @@ class SubmitClaim extends React.Component {
                   <FormGroup row>
                     <Label for="memberID" sm={3}>MemberID</Label>
                     <Col sm={8}>
-                      <Input type="text" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
+                      <Input type="number" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
                       <span style={{ color: "red" }}>{this.state.memberIDInvalid}</span>
                     </Col>
                   </FormGroup>   <br></br>
@@ -141,7 +141,7 @@ class SubmitClaim extends React.Component {
 
                     <Label for="policyID" sm={3}>PolicyID</Label>
                     <Col sm={8}>
-                      <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
+                      <Input type="number" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
                       <span style={{ color: "red" }}>{this.state.policyIDInvalid}</span>
                     </Col>
                   </FormGroup>  <br></br>
@@ -149,7 +149,7 @@ class SubmitClaim extends React.Component {
 
                     <Label for="benefitID" sm={3}>BenefitID</Label>
                     <Col sm={8}>
-                      <Input type="text" name="benefitID" onChange={this.handleChange} value={this.state.benefitID} placeholder="Enter BenefitID" />
+                      <Input type="number" name="benefitID" onChange={this.handleChange} value={this.state.benefitID} placeholder="Enter BenefitID" />
                       <span style={{ color: "red" }}>{this.state.benefitIDInvalid}</span>
                     </Col>
                   </FormGroup> <br></br>
@@ -157,7 +157,7 @@ class SubmitClaim extends React.Component {
 
                     <Label for="hospitalID" sm={3}>HospitalID</Label>
                     <Col sm={8}>
-                      <Input type="text" name="hospitalID" onChange={this.handleChange} value={this.state.hospitalID} placeholder="Enter HospitalID" />
+                      <Input type="number" name="hospitalID" onChange={this.handleChange} value={this.state.hospitalID} placeholder="Enter HospitalID" />
                       <span style={{ color: "red" }}>{this.state.hospitalIDInvalid}</span>
                     </Col>
                   </FormGroup> <br></br>
@@ -165,7 +165,7 @@ class SubmitClaim extends React.Component {
 
                     <Label for="claimAmt" sm={3}>ClaimAmt</Label>
                     <Col sm={8}>
-                      <Input type="text" name="claimAmt" onChange={this.handleChange} value={this.state.claimAmt} placeholder="Enter ClaimAmt" />
+                      <Input type="number" name="claimAmt" onChange={this.handleChange} value={this.state.claimAmt} placeholder="Enter ClaimAmt" />
                       <span style={{ color: "red" }}>{this.state.claimAmtInvalid}</span>
                     </Col>
                   </FormGroup>   <br></br>

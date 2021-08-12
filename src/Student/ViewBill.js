@@ -30,7 +30,7 @@ export default class ViewBill extends Component {
     }
 
 
-    var url = new URL('https://localhost:44355/api/Members/viewBills?')
+    var url = new URL('https://membermicroservice.azurewebsites.net/api/Members/viewBills?')
 
     var params = { policyID: this.state.policyID, memberID: this.state.memberID } // or:
 
@@ -62,7 +62,7 @@ export default class ViewBill extends Component {
         <div class="d-flex justify-content-center mt-5 ">
           <div class="card w-50">
             <div class="card-header bg-primary text-white text-center">
-              <h3  >Enter MemberID & PolicyID</h3>
+              <h3  >View Bill</h3>
             </div>
             <div class="card-body">
               <Form className="form">
@@ -70,7 +70,7 @@ export default class ViewBill extends Component {
                   <FormGroup row>
                     <Label for="memberID" sm={4}>MemberID</Label>
                     <Col sm={8}>
-                      <Input type="text" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
+                      <Input type="number" name="memberID" onChange={this.handleChange} value={this.state.memberID} placeholder="Enter MemberID" />
                       <span style={{ color: "red" }}>{this.state.memberIDInvalid}</span>
 
                     </Col>
@@ -79,7 +79,7 @@ export default class ViewBill extends Component {
                   <FormGroup row>
                     <Label for="policyID" sm={4}>PolicyID</Label>
                     <Col sm={8}>
-                      <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
+                      <Input type="number" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
                       <span style={{ color: "red" }}>{this.state.policyIDInvalid}</span>
 
                     </Col>
@@ -109,8 +109,8 @@ export default class ViewBill extends Component {
     }
     else if (this.state.res == 1) {
       return (
-        <div class="d-flex justify-content-center  m-5 p-5">
-          <table className="table table-striped  " style={{ marginTop: 10 }}>
+        <div class="  mt-5 pt-5 table-responsive" >
+          <table class="table   " >
             <thead>
               <tr>
                 <th>MemberID</th>

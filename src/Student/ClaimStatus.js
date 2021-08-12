@@ -34,7 +34,7 @@ class ClaimStatus extends React.Component {
       return;
     }
 
-    var url = new URL('https://localhost:44355/api/Members/getClaimStatus?')
+    var url = new URL('https://membermicroservice.azurewebsites.net/api/Members/getClaimStatus?')
 
     var params = { claimID: this.state.claimID, policyID: this.state.policyID } // or:
 
@@ -70,7 +70,7 @@ class ClaimStatus extends React.Component {
         <div class="d-flex justify-content-center mt-5 ">
           <div class="card w-50">
             <div class="card-header bg-primary text-white text-center">
-              <h3  >Enter ClaimID & PolicyID</h3>
+              <h3  >View ClaimStatus</h3>
             </div>
             <div class="card-body">
               <Container className="App">
@@ -80,7 +80,7 @@ class ClaimStatus extends React.Component {
                     <FormGroup row>
                       <Label for="claimID" sm={4}>ClaimID</Label>
                       <Col sm={8}>
-                        <Input type="text" name="claimID" onChange={this.handleChange} value={this.state.claimID} placeholder="Enter ClaimID" />
+                        <Input type="number" name="claimID" onChange={this.handleChange} value={this.state.claimID} placeholder="Enter ClaimID" />
                         <span style={{ color: "red" }}>{this.state.claimIDInvalid}</span>
                       </Col>
                     </FormGroup>
@@ -88,7 +88,7 @@ class ClaimStatus extends React.Component {
                     <FormGroup row>
                       <Label for="policyID" sm={4}>PolicyID</Label>
                       <Col sm={8}>
-                        <Input type="text" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
+                        <Input type="number" name="policyID" onChange={this.handleChange} value={this.state.policyID} placeholder="Enter PolicyID" />
                         <span style={{ color: "red" }}>{this.state.policyIDInvalid}</span>
                       </Col>
                     </FormGroup>
